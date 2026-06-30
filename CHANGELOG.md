@@ -17,3 +17,21 @@
 - Created Zod validation schema `registrationSchema` in `src/models/auth.schema.ts`.
 - Built `registrationHandler` and `emailHandler` in `src/controller/auth.controller.ts` with 1-day expiring JWT tokens.
 - Defined the endpoints `POST /registration` and `GET /verify-email` in `src/routes/auth.routes.ts`.
+
+## [2026-06-26] - User Login Flow
+- Added `comparePassword` to `src/lib/hash.ts`.
+- Created `src/lib/token.ts` providing `createAccessToken` (30m expiry) and `createRefreshToken` (7d expiry).
+- Added Zod `loginSchema` to `src/models/auth.schema.ts`.
+- Implemented `loginHandler` in `src/controller/auth.controller.ts` to manage authentication and HTTP-only cookies.
+- Linked `POST /login` in `src/routes/auth.routes.ts`.
+
+## [2026-06-29] - Token Refresh & Logout Flow
+- Added `verifyRefreshToken` to `src/lib/token.ts`.
+- Built `refreshHandler` in `src/controller/auth.controller.ts` to validate the token payload (`userId` and `tokenVersion`), issue a new `accessToken`, and refresh the HTTP-only cookie.
+- Built `logoutHandler` in `src/controller/auth.controller.ts` to clear the `refreshToken` cookie.
+- Linked `POST /refresh` and `POST /logout` routes in `src/routes/auth.routes.ts`.
+
+## [2026-06-30] - Forgot & Reset Password Flow
+- Added `forgotPasswordHandler` in `src/controller/auth.controller.ts` using Node.js `crypto` to generate secure, hashed, and expiring reset tokens, dispatching emails via `sendMail`.
+- Built `resetPasswordHandler` in `src/controller/auth.controller.ts` to hash the new password, clear reset tokens, and strictly invalidate active sessions by incrementing `tokenVersion`.
+- Linked `POST /forgot-password` and `POST /reset-password` endpoints in `src/routes/auth.routes.ts`.

@@ -8,7 +8,8 @@
 		"dev": "ts-node-dev --respawn --transpile-only src/server.ts",
 		"build": "tsc",
 		"start": "node dist/server.js",
-		"example:nodemailer": "ts-node example/mailTrap.ts"
+		"example:nodemailer": "ts-node example/mailTrap.ts",
+		"token": "ts-node src/lib/token.ts"
 	},
 	"keywords": [],
 	"author": "",
