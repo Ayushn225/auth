@@ -35,3 +35,10 @@
 - Added `forgotPasswordHandler` in `src/controller/auth.controller.ts` using Node.js `crypto` to generate secure, hashed, and expiring reset tokens, dispatching emails via `sendMail`.
 - Built `resetPasswordHandler` in `src/controller/auth.controller.ts` to hash the new password, clear reset tokens, and strictly invalidate active sessions by incrementing `tokenVersion`.
 - Linked `POST /forgot-password` and `POST /reset-password` endpoints in `src/routes/auth.routes.ts`.
+
+## [2026-07-01] - Protected Routes & Auth Middleware
+- Refactored `token.ts` to standard JWT protocol utilizing `sub` instead of `userId`.
+- Updated authentication controllers to properly utilize `sub`.
+- Created `requireAuth` middleware in `src/middleware/requireAuth.ts` which robustly verifies access tokens, retrieves fresh `role` data from the DB, and extends the Express Request interface with `req.user`.
+- Mounted `userRouter` in `src/routes/user.routes.ts` providing the protected `GET /me` endpoint.
+- Included the new routes in the central Express configuration in `src/app.ts`.

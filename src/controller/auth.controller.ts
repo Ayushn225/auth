@@ -143,13 +143,13 @@ export const loginHandler = async (
 		const tokenVersion = user.tokenVersion || 0;
 
 		const accessToken = createAccessToken({
-			userId: user._id.toString(),
+			sub: user._id.toString(),
 			role: user.role,
 			tokenVersion,
 		});
 
 		const refreshToken = createRefreshToken({
-			userId: user._id.toString(),
+			sub: user._id.toString(),
 			tokenVersion,
 		});
 
@@ -195,7 +195,7 @@ export const refreshHandler = async (
 			return;
 		}
 
-		const userId = payload.userId;
+		const userId = payload.sub;
 		const user = await User.findById(userId);
 		if (!user) {
 			res.status(401).json({ error: "User no longer exists" });
@@ -210,13 +210,13 @@ export const refreshHandler = async (
 		}
 
 		const accessToken = createAccessToken({
-			userId: user._id.toString(),
+			sub: user._id.toString(),
 			role: user.role,
 			tokenVersion: currentVersion,
 		});
 
 		const newRefreshToken = createRefreshToken({
-			userId: user._id.toString(),
+			sub: user._id.toString(),
 			tokenVersion: currentVersion,
 		});
 
