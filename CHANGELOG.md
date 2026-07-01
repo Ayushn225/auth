@@ -42,3 +42,8 @@
 - Created `requireAuth` middleware in `src/middleware/requireAuth.ts` which robustly verifies access tokens, retrieves fresh `role` data from the DB, and extends the Express Request interface with `req.user`.
 - Mounted `userRouter` in `src/routes/user.routes.ts` providing the protected `GET /me` endpoint.
 - Included the new routes in the central Express configuration in `src/app.ts`.
+
+## [2026-07-01] - Role-Based Middleware & Admin Routes
+- Built the `requireRole` middleware factory in `src/middleware/requireRole.ts` to strictly validate against a list of allowed roles based on `req.user.role`.
+- Implemented `GET /users` in `src/routes/admin.routes.ts` protected by both `requireAuth` and `requireRole(['admin'])` which retrieves all users sorted by creation date descending.
+- Mounted `adminRouter` centrally within `src/app.ts` under the `/admin` prefix matching user instructions.
